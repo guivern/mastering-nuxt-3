@@ -1,0 +1,8 @@
+<template>
+  <h1>Hello world!</h1>
+  <div>pos: {{ x }}, {{ y }}</div>
+</template>
+
+<script setup lang="ts">
+const { x, y } = useMouse();
+</script>
