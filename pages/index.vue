@@ -1,8 +1,8 @@
 <template>
   <h1>Hello world!</h1>
-  <div>pos: {{ x }}, {{ y }}</div>
+  <NuxtLink :to="firstLesson.path">Go To the first lesson</NuxtLink>
 </template>
 
 <script setup lang="ts">
-const { x, y } = useMouse();
+const firstLesson = useFirstLesson();
 </script>

@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="p-12 bg-gray-100 w-full h-full min-h-screen flex flex-col items-center"
-  >
+  <div>
     <div class="prose mb-12">
       <h1>
         <span class="font-medium">
           Course:
-          <span class="font-bold">Mastering Nuxt 3</span>
+          <span class="font-bold">{{ title }}</span>
         </span>
       </h1>
     </div>
@@ -26,7 +24,7 @@
             v-for="(lesson, index) in chapter.lessons"
             :key="lesson.slug"
             class="flex flex-row space-x-1 no-underline prose-sm font-normal py-1"
-            :to="`/course/chapter/${chapter.slug}/lesson/${lesson.slug}`"
+            :to="lesson.path"
           >
             <span class="text-gray-500">{{ index + 1 }}.</span>
             <span>{{ lesson.title }}</span>
@@ -35,18 +33,36 @@
       </div>
 
       <div class="prose p-8 bg-white rounded-md w-[65ch]">
-        <NuxtPage />
+        <NuxtErrorBoundary>
+          <NuxtPage />
+          <template #error="{ error }">
+            <div class="flex flex-col items-center justify-center">
+              <h1 class="text-2xl font-bold">Oops!</h1>
+              <p class="text-lg">Something went wrong.</p>
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                @click="resetError(error)"
+              >
+                Try again
+              </button>
+            </div>
+          </template>
+        </NuxtErrorBoundary>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-const { chapters } = useCourse();
+const { chapters, title } = useCourse();
+
+const resetError = (error) => {
+  error.value = null;
+};
 </script>
 
 <style scoped>
-  .router-link-active {
-    @apply text-blue-500;
-    font-weight: bold;
-  }
+.router-link-active {
+  @apply text-blue-500;
+  font-weight: bold;
+}
 </style>
